@@ -1,0 +1,20 @@
+.input-container {
+  color: #aab5c6;
+}
+
+.input-lable {
+  font-weight: 500;
+}
+
+.input {
+  padding: 16px 18px;
+  outline: none;
+  border: 1px solid #525d754f;
+  width: 100%;
+  margin: 4px 0px;
+  border-radius: 3px;
+}
+.input-error {
+  color: rgba(205, 92, 92, 0.744);
+  border-color: rgba(205, 92, 92, 0.744);
+}

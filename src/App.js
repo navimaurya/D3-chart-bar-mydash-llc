@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Route, Navigate, Routes } from "react-router-dom";
+import Home from "./pages/home/Home";
+import Auth from "./pages/auth/Auth";
+import AppContext from "./context";
+
 
 function App() {
+  const [state, setState] = useState({
+    users: [],
+    currentUser: null
+  });
+  const dispatch = (actionType, payload) => {
+    switch (actionType) {
+      case 'LOGIN':
+        setState({ ...state, currentUser: payload });
+        return;
+      case 'LOGOUT':
+        setState({ ...state, currentUser: null });
+        return;
+      case 'REGISTER':
+        setState({ ...state, users: [...state.users, payload] });
+        return;
+      default:
+        return;
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppContext.Provider value={{ state, dispatch }}>
+      <Routes>
+        <Route exact path="/" element={state.currentUser ? <Home /> : <Navigate to="/auth" replace={true} />} />
+        <Route exact path="/auth" element={state.currentUser ? <Navigate to="/" replace={true} /> : <Auth />} replace={true} />
+      </Routes>
+    </AppContext.Provider>
   );
 }
 
